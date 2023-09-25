@@ -27,44 +27,60 @@ public class Game {
         Random random = new Random();
 
         System.out.println("Each round you will find a monster, you have to defeat him.\n");
-        boolean monsterAlive = true;
-
+        gameRunning = true;
         while(gameRunning){
             heroClassChecker();
 
             int randomIndex = random.nextInt(11);
             String battleMonster = monsterName[randomIndex];
             int xpNum = monsterXp[randomIndex];
-            int hp = monsterHp[randomIndex];
+            int hpMonster = monsterHp[randomIndex];
 
             System.out.println("Monster found: " + battleMonster);
+            boolean monsterAlive = true;
 
             while(monsterAlive){
-                if(hp <= 0){
-                    hp = 0;
+                if(hpMonster <= 0){
+                    hpMonster = 0;
                     monsterAlive = false;
 
                     System.out.println(xpNum + " xp recebidos");
                     xp += xpNum;
                 }
+                if (hp <= 0){
+                    System.out.println("You are defeated.");
+                    gameRunning = false;
+                }
 
-                System.out.print("What would you like to do:\n1-Attack\n2-Defend\n3-Run");
+                System.out.print("What would you like to do:\n1-Attack\n2-Defend\n3-Run\n");
 
                 int userChoice = scanner.nextInt();
 
                 if(userChoice == 1){
-                    int hp1 = hp;
+                    int hp1 = hpMonster;
+                    hpMonster -= random.nextInt(10);
+
+                    System.out.println(hp1-hpMonster + " hit on monster");
+
+                    int hp2 = hp;
                     hp -= random.nextInt(10);
-                    System.out.println(hp1-hp + " hit on monster");
+                    System.out.println(battleMonster + " has attacked you, " + (hp2-hp) + " damage received");
                 } else if (userChoice == 2){
                     System.out.println("Defended");
+
+                    int hp2 = hp;
+                    hp -= random.nextInt(5);
+                    System.out.println(battleMonster + " has attacked you, " + (hp2-hp) + " damage received");
                 } else if (userChoice == 3){
                     System.out.println("Running");
                     System.out.println("You do not receive any xp");
                     monsterAlive = false;
+                } else if (userChoice == 0){
+                    gameRunning = false;
                 }
             }
         }
+        System.out.println("O herói de nome " + name + " chegou ao nível " + heroClass);
     }
 
     private static String[] monsterNames(){
