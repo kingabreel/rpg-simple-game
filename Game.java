@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Game {
     static long xp = 0;
     static String name;
+    static String heroType;
     static int hp;
     static String heroClass;
     static Scanner scanner = new Scanner(System.in);
@@ -13,10 +14,15 @@ public class Game {
     static int[] monsterXp = new int[11];
 
     public static void main(String[] args) {
-         System.out.print("Hello strange, how can I call you? ");
-         name = scanner.nextLine();
+        System.out.print("Hello strange, how can I call you? ");
+        name = scanner.nextLine();
+        System.out.println("What are you skills, what are you? \n1- Mage\n2- Warrior\n3- Monk\n4- Ninja");
+        int userChoice = scanner.nextInt();
 
-         initGame();
+        heroType = (userChoice == 1) ? "Mage" : (userChoice == 2) ? "Warrior" : (userChoice == 3) ? "Monk" : (userChoice == 4) ? "Ninja" : "unknown";
+        if (userChoice > 0 && userChoice < 5){
+            initGame();
+        }
     }
 
     private static void initGame(){
@@ -60,7 +66,11 @@ public class Game {
                     int hp1 = hpMonster;
                     hpMonster -= random.nextInt(10);
 
+                    System.out.println("===============\n");
+                    System.out.println(heroType + " " + name + attackType());
                     System.out.println(hp1-hpMonster + " hit on monster");
+                    System.out.println("\n===============");
+
 
                     int hp2 = hp;
                     hp -= random.nextInt(10);
@@ -76,6 +86,7 @@ public class Game {
                     System.out.println("You do not receive any xp");
                     monsterAlive = false;
                 } else if (userChoice == 0){
+                    monsterAlive = false;
                     gameRunning = false;
                 }
             }
@@ -159,5 +170,18 @@ public class Game {
             heroClass = "Radiante";
             hp = 1000;
         }
+    }
+
+    private static String attackType(){
+        if(heroType.equals("Mage")){
+            return " used magic to summon fire";
+        } else if (heroType.equals("Warrior")){
+            return " used sword to attack";
+        } else if (heroType.equals("Monk")){
+            return " used his hands to puch";
+        } else if (heroType.equals("Ninja")){
+            return " used his shuriken with poison to attack";
+        }
+        return "attacked";
     }
 }
