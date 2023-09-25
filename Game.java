@@ -4,10 +4,14 @@ import java.util.Scanner;
 public class Game {
     static long xp = 0;
     static String name;
+    static int hp;
+    static String heroClass;
     static Scanner scanner = new Scanner(System.in);
     static boolean gameRunning = false;
     static String[] monsterName = new String[11];
-    static int[] xpNumber = new int[11];
+    static int[] monsterHp = new int[11];
+    static int[] monsterXp = new int[11];
+
     public static void main(String[] args) {
          System.out.print("Hello strange, how can I call you? ");
          name = scanner.nextLine();
@@ -17,16 +21,20 @@ public class Game {
 
     private static void initGame(){
         monsterName = monsterNames();
-        int[] monsterHp = hpInit();
+        monsterHp = hpInit();
+        monsterXp = xpInit();
+
         Random random = new Random();
 
         System.out.println("Each round you will find a monster, you have to defeat him.\n");
         boolean monsterAlive = true;
 
         while(gameRunning){
+            heroClassChecker();
+
             int randomIndex = random.nextInt(11);
             String battleMonster = monsterName[randomIndex];
-            int xpNum = xpNumber[randomIndex];
+            int xpNum = monsterXp[randomIndex];
             int hp = monsterHp[randomIndex];
 
             System.out.println("Monster found: " + battleMonster);
@@ -37,6 +45,7 @@ public class Game {
                     monsterAlive = false;
 
                     System.out.println(xpNum + " xp recebidos");
+                    xp += xpNum;
                 }
 
                 System.out.print("What would you like to do:\n1-Attack\n2-Defend\n3-Run");
@@ -52,6 +61,7 @@ public class Game {
                 } else if (userChoice == 3){
                     System.out.println("Running");
                     System.out.println("You do not receive any xp");
+                    monsterAlive = false;
                 }
             }
         }
@@ -103,6 +113,35 @@ public class Game {
             950,
             400,
             700,    
+        };
+        return monsterXP;
     }
 
+    private static void heroClassChecker(){
+        if (xp < 1000){
+            heroClass = "Ferro";
+            hp = 50;
+        } else if (xp > 1000 && xp <= 2000){
+            heroClass = "Bronze";
+            hp = 100;
+        } else if (xp > 2000 && xp <= 5000){
+            heroClass = "Prata";
+            hp = 130;
+        } else if (xp > 5000 && xp <= 6000){
+            heroClass = "Ouro";
+            hp = 170;
+        } else if (xp > 6000 && xp <= 8000){
+            heroClass = "Platina";
+            hp = 250;
+        } else if (xp > 8000 && xp <= 9000){
+            heroClass = "Ascendente";
+            hp = 300;
+        } else if (xp > 9000 && xp <= 10500){
+            heroClass = "Imortal";
+            hp = 500;
+        } else if (xp > 10000){
+            heroClass = "Radiante";
+            hp = 1000;
+        }
+    }
 }
