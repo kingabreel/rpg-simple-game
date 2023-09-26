@@ -54,7 +54,9 @@ public class Game {
                     xp += xpNum;
                 }
                 if (hp <= 0){
+                    hp = 0;
                     System.out.println("You are defeated.");
+                    monsterAlive = false;
                     gameRunning = false;
                 }
 
@@ -64,7 +66,7 @@ public class Game {
 
                 if(userChoice == 1){
                     int hp1 = hpMonster;
-                    hpMonster -= random.nextInt(10);
+                    hpMonster -= random.nextInt(50);
 
                     System.out.println("===============\n");
                     System.out.println(heroType + " " + name + attackType());
